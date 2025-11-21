@@ -41,8 +41,12 @@ export const gradeSubmission = async (
       Grading Rubric/Criteria:
       ${config.gradingRubric}
 
-      Please grade the attached student submission strictly according to the rubric provided. Please use the same language as the assignment in the output.
-      Provide the output in structured JSON format. 
+      Instructions:
+      1. Analyze the student submission based strictly on the rubric.
+      2. **IMPORTANT: Detect the language used in the student submission (e.g., Chinese, English, Spanish).**
+      3. **You MUST write the 'summary', 'strengths', 'improvements', and 'detailedFeedback' in the SAME language as the student submission.** 
+      4. If the submission is in Chinese, your feedback must be in Chinese.
+      5. Provide the output in structured JSON format.
     `;
 
     const parts: any[] = [{ text: promptText }];

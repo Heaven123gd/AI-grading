@@ -200,7 +200,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     container.style.top = '-10000px';
     container.style.left = '0';
     container.style.width = '794px'; // A4 width in px at 96 DPI
-    container.style.minHeight = '1123px'; // A4 height
+    // Remove minHeight to prevent forcing extra whitespace at the bottom
+    // container.style.minHeight = '1123px'; 
     container.style.backgroundColor = '#ffffff';
     container.style.zIndex = '-1000';
     document.body.appendChild(container);
@@ -219,9 +220,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         const gradeBg = isPass ? '#ecfdf5' : '#fff1f2';
 
         // 2. Render HTML for this student
-        // We use inline styles extensively to ensure html2canvas captures exactly what we want
         container.innerHTML = `
-          <div style="padding: 40px; background: white; font-family: 'Microsoft YaHei', 'SimHei', sans-serif; color: #1e293b; box-sizing: border-box;">
+          <div style="padding: 40px; background: white; font-family: 'Microsoft YaHei', 'SimHei', sans-serif; color: #1e293b; box-sizing: border-box; width: 794px;">
              <!-- Header -->
              <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px;">
                 <div style="max-width: 70%;">
@@ -295,7 +295,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         `;
 
         // 3. Convert DOM to Canvas using html2canvas
-        // Scale 2 ensures high resolution (Retina quality) for printing
         const canvas = await (window as any).html2canvas(container, {
            scale: 2,
            useCORS: true,
@@ -307,7 +306,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         const imgProps = pdf.getImageProperties(imgData);
         
         // 4. Add to PDF
-        // Handle multipage if the content is very long for a single student
         const imgWidth = pdfWidth;
         const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
         let heightLeft = imgHeight;
@@ -320,8 +318,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
         heightLeft -= pdfHeight;
 
-        // If content is longer than one page, add more pages
-        while (heightLeft > 0) {
+        // Only add extra pages if significant content remains (threshold of 20pt to avoid blank pages from tiny overflows)
+        while (heightLeft > 20) {
            position = heightLeft - imgHeight; 
            pdf.addPage();
            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
