@@ -1,0 +1,5 @@
+{
+  "name": "AI Grader Pro",
+  "description": "A professional AI-powered homework grading assistant featuring batch processing, custom rubrics, and structured export.",
+  "requestFramePermissions": []
+}
