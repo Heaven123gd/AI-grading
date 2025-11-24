@@ -33,7 +33,7 @@ export const gradeSubmission = async (
 ): Promise<GradingResult> => {
   try {
     const promptText = `
-      You are an expert academic grader. 
+      You are an expert academic grader. you are strict teacher, you can't give a high grade unless the homework is very good.
       
       Assignment Description:
       ${config.assignmentPrompt}
@@ -42,7 +42,7 @@ export const gradeSubmission = async (
       ${config.gradingRubric}
 
       Instructions:
-      1. Analyze the student submission based strictly on the rubric.
+      1. Analyze the student submission based strictly on the rubric. 
       2. **IMPORTANT: Detect the language used in the student submission (e.g., Chinese, English, Spanish).**
       3. **You MUST write the 'summary', 'strengths', 'improvements', and 'detailedFeedback' in the SAME language as the student submission.** 
       4. If the submission is in Chinese, your feedback must be in Chinese.
