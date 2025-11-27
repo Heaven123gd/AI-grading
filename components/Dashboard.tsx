@@ -43,7 +43,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
-    const files = Array.from(e.target.files);
+    const files: File[] = Array.from(e.target.files);
     const newSubmissions: StudentSubmission[] = [];
 
     await Promise.all(files.map(async (file) => {
@@ -586,7 +586,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                  {/* Re-analyze Button */}
                  {(activeSubmission.status === GradingStatus.COMPLETED || activeSubmission.status === GradingStatus.ERROR) && !isEditing && !isProcessing && (
                   <button 
-                    onClick={(e) => handleReanalyze(activeSubmission.id)}
+                    onClick={() => handleReanalyze(activeSubmission.id)}
                     className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
                     title="Re-analyze"
                   >

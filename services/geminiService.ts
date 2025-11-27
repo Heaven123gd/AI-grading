@@ -1,6 +1,13 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { GradingConfig, GradingResult } from "../types";
 
+// Declare process for TypeScript since it is injected by Vite at build time
+declare var process: {
+  env: {
+    API_KEY: string;
+  }
+};
+
 // Initialize API Client
 // Note: process.env.API_KEY is assumed to be available in the environment
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
